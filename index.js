@@ -1,20 +1,18 @@
 const Player = (name) => {
     const getName = () => name;
 
-    const takeTurn = (id) => {
-        gameboard.setBoard(id, name);
-    }
-
-    return {getName, takeTurn}
+    return {getName}
 }
 
 const gameflow = (() => {
     let xturn;
     let oturn;
+    
     const init = () => {
         xturn = true;
         oturn = false;
     }
+
     const getState = () => {
         if (xturn == true && oturn == false) {
             return "x"
@@ -37,9 +35,9 @@ const gameflow = (() => {
 })();
 
 const gameboard = (() => {
-    let board = [];
-    const getBoard = (id) => board[id];
-    const setBoard = (id, tag) => board[id] = tag;
+    let board = []
+    const getBoard = (id) => board[id]
+    const setBoard = (id, tag) => board[id] = tag
 
     const init = () => {
         board =[null, null, null,
@@ -47,7 +45,17 @@ const gameboard = (() => {
                 null, null, null]
     }
 
-    return {init, getBoard, setBoard}
+    const turnTaken = (id) => {
+        if (board[id] != null) {
+            return
+        } else {
+            board[id] = gameflow.getState()
+            gameflow.changeTurn()
+            display.update()
+        }
+    }
+
+    return {init, getBoard, setBoard, turnTaken}
 })();
 
 const display = (() => {
@@ -72,6 +80,8 @@ const display = (() => {
             } else if (gameboard.getBoard(i) == "o") {
                 square.textContent = "O"
             }
+
+            square.addEventListener('click', function() { gameboard.turnTaken(square.getAttribute('data-value')) });
     
             // Adds element to grid
             grid.appendChild(square)
@@ -80,14 +90,9 @@ const display = (() => {
     return {update}
 })();
 
-let xPlayer;
-let oPlayer;
-
 function setup() {
     gameflow.init();
     gameboard.init();
-    xPlayer = Player("x");
-    oPlayer = Player("o");
     display.update();
 }
 
