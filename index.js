@@ -1,6 +1,11 @@
 const Player = (name) => {
     const getName = () => name;
-    return {getName}
+
+    const takeTurn = (id) => {
+        gameboard.setBoard(id, name);
+    }
+
+    return {getName, takeTurn}
 }
 
 const gameflow = (() => {
@@ -32,42 +37,58 @@ const gameflow = (() => {
 })();
 
 const gameboard = (() => {
-    const board = [null, null, null, null, null, null, null, null, null]
-    return {board}
+    let board = [];
+    const getBoard = (id) => board[id];
+    const setBoard = (id, tag) => board[id] = tag;
+
+    const init = () => {
+        board =[null, null, null,
+                null, null, null,
+                null, null, null]
+    }
+
+    return {init, getBoard, setBoard}
 })();
 
 const display = (() => {
     const grid = document.querySelector(".grid-container")
+
     const update = () => {
+        //Clears grid
+        while (grid.lastElementChild) {
+            grid.removeChild(grid.lastElementChild);
+        }
+
+        // Populates grid
         for (i = 0; i < 9; i++) {
+            // Creates grid element
             const square = document.createElement('div')
             square.classList.add('grid-element')
             square.setAttribute('data-value', i);
     
-            if (gameboard.board[i] == "x") {
+            // Decides to display an X/O depending on the gameboard array
+            if (gameboard.getBoard(i) == "x") {
                 square.textContent = "X"
-            } else if (gameboard.board[i] == "o") {
+            } else if (gameboard.getBoard(i) == "o") {
                 square.textContent = "O"
             }
     
+            // Adds element to grid
             grid.appendChild(square)
         }
     }
     return {update}
 })();
 
+let xPlayer;
+let oPlayer;
+
 function setup() {
-    gameboard.board.push("x");
-    gameboard.board.push("o");
-    gameboard.board.push("o");
-    gameboard.board.push("x");
-    gameboard.board.push("o");
-    gameboard.board.push("x");
-    gameboard.board.push("o");
-    gameboard.board.push("x");
-    gameboard.board.push("x");
+    gameflow.init();
+    gameboard.init();
+    xPlayer = Player("x");
+    oPlayer = Player("o");
+    display.update();
 }
 
 setup();
-
-display.update();
