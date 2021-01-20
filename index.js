@@ -4,12 +4,56 @@ const Player = (name) => {
 }
 
 const gameflow = (() => {
-    return {}
+    let xturn;
+    let oturn;
+    const init = () => {
+        xturn = true;
+        oturn = false;
+    }
+    const getState = () => {
+        if (xturn == true && oturn == false) {
+            return "x"
+        } else if (xturn == false && oturn == true) {
+            return "o"
+        }
+    };
+
+    const changeTurn = () => {
+        if (xturn == true && oturn == false) {
+            xturn = false
+            oturn = true
+        } else if (xturn == false && oturn == true) {
+            xturn = true
+            oturn = false
+        }
+    }
+
+    return {init, getState, changeTurn}
 })();
 
 const gameboard = (() => {
-    const board = []
+    const board = [null, null, null, null, null, null, null, null, null]
     return {board}
+})();
+
+const display = (() => {
+    const grid = document.querySelector(".grid-container")
+    const update = () => {
+        for (i = 0; i < 9; i++) {
+            const square = document.createElement('div')
+            square.classList.add('grid-element')
+            square.setAttribute('data-value', i);
+    
+            if (gameboard.board[i] == "x") {
+                square.textContent = "X"
+            } else if (gameboard.board[i] == "o") {
+                square.textContent = "O"
+            }
+    
+            grid.appendChild(square)
+        }
+    }
+    return {update}
 })();
 
 function setup() {
@@ -26,21 +70,4 @@ function setup() {
 
 setup();
 
-const display = (() => {
-    const grid = document.querySelector(".grid-container")
-    console.log(gameboard)
-    for (i = 0; i < 9; i++) {
-        const square = document.createElement('div')
-        square.classList.add('grid-element')
-        console.log(gameboard)
-        console.log(gameboard.board)
-
-        if (gameboard.board[i] == "x") {
-            square.textContent = "X"
-        } else if (gameboard.board[i] == "o") {
-            square.textContent = "O"
-        }
-
-        grid.appendChild(square)
-    }
-})();
+display.update();
