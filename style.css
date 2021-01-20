@@ -1,0 +1,33 @@
+html {
+    background-color: #A44A3F;
+}
+
+.wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.grid-container {
+    display: grid;
+    grid-template:  ". . ."
+                    ". . ."
+                    ". . .";
+    grid-gap: 10px;
+}
+
+.grid-element {
+    width: 120px;
+    height: 120px;
+
+    background-color: #F19C79;
+
+    font-size: 5rem;
+    color: #F6F4D2;
+    font-family:'Courier New', Courier, monospace;
+
+    text-align: center;
+    vertical-align: middle;
+    line-height: 120px;
+}
