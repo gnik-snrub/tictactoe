@@ -31,7 +31,29 @@ const gameflow = (() => {
         }
     }
 
-    return {init, getState, changeTurn}
+    const createWinnerPopup = (winner) => {
+        const overlay = document.createElement('div')
+        const popup = document.createElement('div')
+        const page = document.querySelector('body')
+
+        overlay.classList.add('overlay')
+        popup.classList.add('popup')
+
+        popup.textContent = `${winner} is the winner!
+Congratulations!
+You win a prize of nothing~
+(Click anywhere to continue)`
+        overlay.appendChild(popup)
+        overlay.addEventListener('click', () => { resetGame(overlay); })
+        page.appendChild(overlay)
+    }
+
+    const resetGame = (overlay) => {
+        setup()
+        overlay.remove()
+    }
+
+    return {init, getState, changeTurn, createWinnerPopup}
 })();
 
 const gameboard = (() => {
@@ -56,6 +78,7 @@ const gameboard = (() => {
     }
 
     const winCheck = () => {
+        // Array containing board win conditions
         const winStates = [
             [0, 1, 2],
             [3, 4, 5],
@@ -67,14 +90,15 @@ const gameboard = (() => {
             [2, 4, 6],
         ]
 
+        // Iterates through above array
         for (i = 0; i < winStates.length; i++) {
             let winPosOne = winStates[i][0]
             let winPosTwo = winStates[i][1]
             let winPosThree = winStates[i][2]
             if (`${getBoard(winPosOne)}${getBoard(winPosTwo)}${getBoard(winPosThree)}` == "xxx") {
-                console.log("X is da winner")
+                gameflow.createWinnerPopup("X")
             } else if (`${getBoard(winPosOne)}${getBoard(winPosTwo)}${getBoard(winPosThree)}` == "ooo") {
-                console.log("O is da winner")
+                gameflow.createWinnerPopup("O")
             }
         }
     }
