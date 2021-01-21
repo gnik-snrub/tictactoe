@@ -37,7 +37,6 @@ const gameflow = (() => {
 const gameboard = (() => {
     let board = []
     const getBoard = (id) => board[id]
-    const setBoard = (id, tag) => board[id] = tag
 
     const init = () => {
         board =[null, null, null,
@@ -50,12 +49,37 @@ const gameboard = (() => {
             return
         } else {
             board[id] = gameflow.getState()
+            winCheck();
             gameflow.changeTurn()
             display.update()
         }
     }
 
-    return {init, getBoard, setBoard, turnTaken}
+    const winCheck = () => {
+        const winStates = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+        ]
+
+        for (i = 0; i < winStates.length; i++) {
+            let winPosOne = winStates[i][0]
+            let winPosTwo = winStates[i][1]
+            let winPosThree = winStates[i][2]
+            if (`${getBoard(winPosOne)}${getBoard(winPosTwo)}${getBoard(winPosThree)}` == "xxx") {
+                console.log("X is da winner")
+            } else if (`${getBoard(winPosOne)}${getBoard(winPosTwo)}${getBoard(winPosThree)}` == "ooo") {
+                console.log("O is da winner")
+            }
+        }
+    }
+
+    return {init, getBoard, turnTaken}
 })();
 
 const display = (() => {
@@ -81,6 +105,7 @@ const display = (() => {
                 square.textContent = "O"
             }
 
+            // Adds listener to square to detect a player clicking on it
             square.addEventListener('click', function() { gameboard.turnTaken(square.getAttribute('data-value')) });
     
             // Adds element to grid
@@ -97,3 +122,10 @@ function setup() {
 }
 
 setup();
+
+
+// Check for wins
+// Flesh out UI
+// - Congrats to the winner
+// - Allow players to input names
+// - Start / Restart buttons
