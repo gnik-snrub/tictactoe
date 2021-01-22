@@ -1,5 +1,6 @@
 html {
     background-color: #A44A3F;
+    font-family:'Courier New', Courier, monospace;
 }
 
 .wrapper {
@@ -7,6 +8,52 @@ html {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 98vh;
+}
+
+.player {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    flex-direction: column;
+    margin: auto 150px;
+}
+
+input {
+    border: 0px;
+    background-color: #A44A3F;
+
+    font-family:'Courier New', Courier, monospace;
+    font-size: 1.15rem;
+    color: #F6F4D2;
+    text-align: center;
+
+    margin-bottom: 5px;
+}
+
+input::placeholder {
+    color: inherit;
+}
+
+input:focus {
+    outline: none;
+}
+
+.player-icon {
+    width: 120px;
+    height: 120px;
+
+    font-size: 5rem;
+    color: #F6F4D2;
+    background-color: #F19C79;
+
+    text-align: center;
+    vertical-align: middle;
+    line-height: 120px;
 }
 
 .grid-container {
@@ -21,11 +68,11 @@ html {
     width: 120px;
     height: 120px;
 
-    background-color: #F19C79;
+    background-color: #A44A3F;
+    border: 1px solid #F19C79;
 
     font-size: 5rem;
     color: #F6F4D2;
-    font-family:'Courier New', Courier, monospace;
 
     text-align: center;
     vertical-align: middle;
@@ -35,7 +82,38 @@ html {
 }
 
 .grid-element:hover {
-    background-color: #F5BBA3;
+    background-color: #F19C79;
+}
+
+.button-container {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 98vw;
+    height: 20%;
+}
+
+.start {
+    border: 1px solid #F19C79;
+    background-color: #A44A3F;
+    font-size: 1.3rem;
+    color: #F6F4D2;
+    font-family:'Courier New', Courier, monospace;
+    padding: 15px 30px;
+    
+    box-shadow: inset 0px 0px 0px #A44A3F;
+    transition: all 0.5s;
+}
+
+.start:hover {
+    box-shadow: inset 0px 80px 0px #F19C79;
+    color: #A44A3F;
+}
+
+.start:focus {
+    outline: none;
 }
 
 .overlay {
@@ -56,7 +134,6 @@ html {
     color:  #F6F4D2;
     border: 2px solid #A44A3F;
     font-size: 2rem;
-    font-family:'Courier New', Courier, monospace;
     white-space: pre-wrap;
 
     position: absolute;

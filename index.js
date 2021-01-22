@@ -1,6 +1,5 @@
 const Player = (name) => {
     const getName = () => name;
-
     return {getName}
 }
 
@@ -38,6 +37,15 @@ const gameflow = (() => {
 
         overlay.classList.add('overlay')
         popup.classList.add('popup')
+
+        if (winner == false) {
+            popup.textContent = `It's a tie.
+(Click anywhere to continue)`
+            overlay.appendChild(popup)
+            overlay.addEventListener('click', () => { resetGame(overlay); })
+            page.appendChild(overlay)
+            return;
+        }
 
         popup.textContent = `${winner} is the winner!
 Congratulations!
@@ -101,6 +109,14 @@ const gameboard = (() => {
                 gameflow.createWinnerPopup("O")
             }
         }
+
+        for (i = 0; i < board.length; i++) {
+            if (board[i] == null) {
+                return;
+            } else if (i == board.length - 1) {
+                gameflow.createWinnerPopup(false);
+            }
+        }
     }
 
     return {init, getBoard, turnTaken}
@@ -125,8 +141,10 @@ const display = (() => {
             // Decides to display an X/O depending on the gameboard array
             if (gameboard.getBoard(i) == "x") {
                 square.textContent = "X"
+                square.style.backgroundColor = "#F19C79"
             } else if (gameboard.getBoard(i) == "o") {
                 square.textContent = "O"
+                square.style.backgroundColor = "#F19C79"
             }
 
             // Adds listener to square to detect a player clicking on it
@@ -147,9 +165,6 @@ function setup() {
 
 setup();
 
-
-// Check for wins
 // Flesh out UI
-// - Congrats to the winner
 // - Allow players to input names
 // - Start / Restart buttons
