@@ -133,6 +133,7 @@ const gameboard = (() => {
             [2, 4, 6],
         ]
 
+        let somebodyHasOne = false;
         // Iterates through above array
         for (i = 0; i < winStates.length; i++) {
             // If, when compared to the current board, a winstate shows three consecutive "o"s or "x"s, a win hsa taken place.
@@ -141,17 +142,21 @@ const gameboard = (() => {
             let winPosThree = winStates[i][2]
             if (`${getBoard(winPosOne)}${getBoard(winPosTwo)}${getBoard(winPosThree)}` == "xxx") {
                 gameflow.createWinnerPopup(playerX.getName())
+                somebodyHasOne = true;
             } else if (`${getBoard(winPosOne)}${getBoard(winPosTwo)}${getBoard(winPosThree)}` == "ooo") {
                 gameflow.createWinnerPopup(playerO.getName())
+                somebodyHasOne = true;
             }
         }
 
-        // Checks to ensure that a tie has not taken place before continuing play.
-        for (i = 0; i < board.length; i++) {
-            if (board[i] == null) {
-                return;
-            } else if (i == board.length - 1) {
-                gameflow.createWinnerPopup(false); // Tie is found; Display a "tie" popup
+        // Checks to ensure that a tie has not taken place before continuing play. Skips if a win condition has been met.
+        if (!somebodyHasOne) {
+            for (i = 0; i < board.length; i++) {
+                if (board[i] == null) {
+                    break;
+                } else if (i == board.length - 1) {
+                    gameflow.createWinnerPopup(false); // Tie is found; Display a "tie" popup
+                }
             }
         }
     }
